@@ -1,0 +1,21 @@
+name: ci
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install -r requirements.txt
+      - name: dbt build
+        env:
+          GCP_PROJECT_ID: sec-edgar-financials-warehouse
+          BQ_LOCATION: US
+          BQ_RAW_DATASET: sec_raw
+          BQ_CURATED_DATASET: sec_curated
+          DBT_PROFILES_DIR: ./dbt
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/sa.json
+        run: |
+          echo "${{ secrets.SA_JSON }}" > sa.json
+          dbt build --project-dir ./dbt --profiles-dir ./dbt
