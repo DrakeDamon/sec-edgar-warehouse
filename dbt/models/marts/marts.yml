@@ -1,0 +1,16 @@
+version: 2
+models:
+  - name: dim_company
+    tests:
+      - unique:
+          column_name: cik
+      - not_null:
+          column_name: cik
+  - name: fct_financials_quarterly
+    tests:
+      - not_null:
+          column_name: period_end_date
+      - relationships:
+          column_name: cik
+          to: ref('dim_company')
+          field: cik
