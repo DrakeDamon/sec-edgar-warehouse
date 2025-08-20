@@ -1,29 +1,23 @@
 # SEC EDGAR Financials Warehouse
 
-A modern data warehouse for SEC financial data using Google Cloud Platform, BigQuery, dbt, and Great Expectations.
+**Status:** ✅ Operational &nbsp;|&nbsp; **dbt tests:** 14/14 &nbsp;|&nbsp; **GE:** 100% pass  
+**Partition/Cluster:** ✔ `period_end_date` / (`cik`, `concept`)  
+**Cost guardrails:** ✔ INFORMATION_SCHEMA bytes scanned monitor
 
-## Features
-- 🏗️ **Infrastructure as Code**: Automated GCP setup and configuration
-- 📊 **Data Pipeline**: SEC API → GCS → BigQuery → dbt transformations
-- 🧪 **Data Quality**: Great Expectations validation and testing
-- 🚀 **Deployment**: Docker + Cloud Run for production workloads
-- 💰 **Cost Optimization**: Partitioned and clustered tables for performance
+## Scheduling
+This repo includes a daily schedule via **GitHub Actions** that executes the Cloud Run Job:
+- Workflow: `.github/workflows/schedule.yml` (06:00 UTC daily)
+- Secret needed: `SA_JSON` (service account key JSON)
+- The job name is `sec-pipeline-job` in region `us-central1`.
 
-## Architecture
-```
-SEC API → GCS (raw) → BigQuery (raw) → dbt (curated) → GE (validation) → BI Tools
-```
-
-## Quick Start
-1. `cp .env.example .env` and configure your GCS bucket
-2. `make setup` - Install dependencies
-3. `make all` - Run full pipeline
+## Quickstart
+1) `cp .env.example .env` and set `GCS_BUCKET` to your bucket.
+2) `make setup && make ingest && make load && make dbt-build && make ge`
+3) Run `bash tools/smoke_check.sh` to validate infra, models, and DQ.
 
 ## Datasets
-- **Raw**: `sec_raw.raw_companyfacts`, `sec_raw.raw_submissions`
-- **Curated**: `sec_curated.dim_company`, `sec_curated.dim_concept`, `sec_curated.fct_financials_quarterly`
+- Raw: `sec_raw.raw_companyfacts`, `sec_raw.raw_submissions`
+- Curated: `sec_curated.dim_company`, `sec_curated.dim_concept`, `sec_curated.fct_financials_quarterly`
 
-## Cost Optimization
-- Date partitioning on `period_end_date`
-- Clustering by `cik` and `concept`
-- Query filtering reduces bytes scanned by 90%+
+## Cost Proof
+Run `sql/cost_views.sql`. Compare bytes scanned for filtered vs unfiltered queries to verify partition/clustering effectiveness.

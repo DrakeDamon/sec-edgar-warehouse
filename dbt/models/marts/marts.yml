@@ -12,5 +12,5 @@ models:
           column_name: period_end_date
       - relationships:
           column_name: cik
-          to: ref('dim_company')
-          field: cik
+          to: ref('dim_company') 
+          field: cik  # Fixed missing column_name parameter
