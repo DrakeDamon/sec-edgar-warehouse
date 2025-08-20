@@ -14,3 +14,6 @@ models:
       +schema: "{{ env_var('BQ_CURATED_DATASET','sec_curated') }}"
     marts:
       +schema: "{{ env_var('BQ_CURATED_DATASET','sec_curated') }}"
+    marts_viz:
+      +materialized: table
+      +schema: "sec_viz"

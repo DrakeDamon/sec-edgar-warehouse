@@ -11,6 +11,9 @@ load:
 dbt-build:
 	. .venv/bin/activate; export DBT_PROFILES_DIR=./dbt; dbt build --project-dir ./dbt --profiles-dir ./dbt
 
+dbt-viz:
+	. .venv/bin/activate; export DBT_PROFILES_DIR=./dbt; dbt build --project-dir ./dbt --profiles-dir ./dbt --select marts_viz
+
 ge:
 	. .venv/bin/activate; python src/dq/run_ge_checks.py
 
