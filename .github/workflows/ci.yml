@@ -5,9 +5,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.SA_JSON }}
+          
       - uses: actions/setup-python@v5
         with: { python-version: '3.11' }
+        
       - run: pip install -r requirements.txt
+      
       - name: dbt build
         env:
           GCP_PROJECT_ID: sec-edgar-financials-warehouse
@@ -15,7 +23,6 @@ jobs:
           BQ_RAW_DATASET: sec_raw
           BQ_CURATED_DATASET: sec_curated
           DBT_PROFILES_DIR: ./dbt
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/sa.json
-        run: |
-          echo "${{ secrets.SA_JSON }}" > sa.json
-          dbt build --project-dir ./dbt --profiles-dir ./dbt
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+          DBT_TARGET: dev
+        run: dbt build --project-dir ./dbt --profiles-dir ./dbt
