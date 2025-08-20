@@ -1,0 +1,23 @@
+name: manual-test-run
+on:
+  workflow_dispatch:
+
+jobs:
+  test-execution:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Auth to Google Cloud (key)
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.SA_JSON }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Execute Cloud Run Job (wait for result)
+        run: |
+          gcloud config set project sec-edgar-financials-warehouse
+          gcloud run jobs execute sec-pipeline-job --region us-central1 --wait
+          gcloud run jobs executions list --job sec-pipeline-job --region us-central1 --limit 1 --format='table(NAME,STATUS,STARTED,COMPLETED)'
