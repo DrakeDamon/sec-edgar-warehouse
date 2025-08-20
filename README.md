@@ -1,7 +1,8 @@
 # SEC EDGAR Financials Warehouse
 
-**Status:** ✅ Operational &nbsp;|&nbsp; **dbt tests:** 14/14 &nbsp;|&nbsp; **GE:** 100% pass  
-**Partition/Cluster:** ✔ `period_end_date` / (`cik`, `concept`)  
+**Status:** ✅ Operational | **dbt tests:** 14/14 | **GE:** 100% pass  
+**Partition/Cluster:** ✔ `period_end_date` / (`cik`,`concept`) (require_partition_filter: **on**)  
+**Automation:** ✔ Cloud Run Job + GitHub Actions (06:00 UTC)  
 **Cost guardrails:** ✔ INFORMATION_SCHEMA bytes scanned monitor
 
 ## Scheduling

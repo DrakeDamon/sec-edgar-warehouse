@@ -16,8 +16,23 @@ jobs:
       - name: Setup gcloud
         uses: google-github-actions/setup-gcloud@v2
 
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies for smoke check
+        run: |
+          pip install -r requirements.txt
+          chmod +x tools/smoke_check.sh
+
       - name: Execute Cloud Run Job (wait for result)
         run: |
           gcloud config set project sec-edgar-financials-warehouse
           gcloud run jobs execute sec-pipeline-job --region us-central1 --wait
           gcloud run jobs executions list --job sec-pipeline-job --region us-central1 --limit 1 --format='table(NAME,STATUS,STARTED,COMPLETED)'
+
+      - name: Smoke check (dbt + GE + cost view)
+        env:
+          GCS_BUCKET: sec-edgar-data-20250819-19293
+        run: bash tools/smoke_check.sh

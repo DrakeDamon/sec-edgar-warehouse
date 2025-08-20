@@ -52,8 +52,8 @@ fi
 gcloud storage buckets describe "gs://$GCS_BUCKET" --format='value(location)' >/dev/null && pass "Bucket exists: gs://$GCS_BUCKET" || fail "Bucket missing: gs://$GCS_BUCKET"
 
 # ===== Datasets =====
-bq --location="$BQ_LOC" ls -d "$PROJECT:$RAW_DS" >/dev/null 2>&1 && pass "Dataset exists: $RAW_DS" || fail "Missing dataset: $RAW_DS"
-bq --location="$BQ_LOC" ls -d "$PROJECT:$CUR_DS" >/dev/null 2>&1 && pass "Dataset exists: $CUR_DS" || fail "Missing dataset: $CUR_DS"
+bq ls "$RAW_DS" >/dev/null 2>&1 && pass "Dataset exists: $RAW_DS" || fail "Missing dataset: $RAW_DS"
+bq ls "$CUR_DS" >/dev/null 2>&1 && pass "Dataset exists: $CUR_DS" || fail "Missing dataset: $CUR_DS"
 
 # ===== Raw tables rowcounts =====
 RCF=$(bq --location="$BQ_LOC" query --use_legacy_sql=false --format=csv "SELECT COUNT(1) FROM \`$PROJECT.$RAW_DS.raw_companyfacts\`" | tail -n1 || echo "0")
@@ -63,12 +63,24 @@ RSUB=$(bq --location="$BQ_LOC" query --use_legacy_sql=false --format=csv "SELECT
 (( RSUB > 0 )) && pass "raw_submissions rows: $RSUB" || fail "raw_submissions is empty"
 
 # ===== Curated tables =====
+# Check if tables exist in dbt-generated schema first, then original schema
 for tbl in dim_company dim_concept fct_financials_quarterly; do
-  bq --location="$BQ_LOC" show "$PROJECT:$CUR_DS.$tbl" >/dev/null 2>&1 && pass "Found $CUR_DS.$tbl" || fail "Missing $CUR_DS.$tbl"
+  if bq --location="$BQ_LOC" show "$PROJECT:${CUR_DS}_${CUR_DS}.$tbl" >/dev/null 2>&1; then
+    pass "Found ${CUR_DS}_${CUR_DS}.$tbl"
+  elif bq --location="$BQ_LOC" show "$PROJECT:$CUR_DS.$tbl" >/dev/null 2>&1; then
+    pass "Found $CUR_DS.$tbl"
+  else
+    fail "Missing $tbl in both $CUR_DS and ${CUR_DS}_${CUR_DS}"
+  fi
 done
 
 # ===== Partition & Cluster checks =====
-BQSHOW="$(bq --location="$BQ_LOC" show --format=prettyjson "$PROJECT:$CUR_DS.fct_financials_quarterly")"
+# Check dbt-generated schema first, then original schema
+if bq --location="$BQ_LOC" show "$PROJECT:${CUR_DS}_${CUR_DS}.fct_financials_quarterly" >/dev/null 2>&1; then
+  BQSHOW="$(bq --location="$BQ_LOC" show --format=prettyjson "$PROJECT:${CUR_DS}_${CUR_DS}.fct_financials_quarterly")"
+else
+  BQSHOW="$(bq --location="$BQ_LOC" show --format=prettyjson "$PROJECT:$CUR_DS.fct_financials_quarterly")"
+fi
 echo "$BQSHOW" | grep -q '"timePartitioning"' && pass "Has timePartitioning" || fail "No timePartitioning"
 echo "$BQSHOW" | grep -q '"field": "period_end_date"' && pass "Partition field = period_end_date" || warn "Partition field not detected as period_end_date"
 echo "$BQSHOW" | grep -q '"clustering"' && pass "Has clustering" || warn "No clustering found"
@@ -124,10 +136,16 @@ GROUP BY user_email ORDER BY gb_scanned DESC LIMIT 20" \
   && pass "Cost view query executed" || warn "Cost view query failed"
 
 # ===== KPI sample =====
+# Use the dbt-generated schema for KPI query
+FACT_TABLE="$PROJECT.${CUR_DS}_${CUR_DS}.fct_financials_quarterly"
+if ! bq --location="$BQ_LOC" show "$FACT_TABLE" >/dev/null 2>&1; then
+  FACT_TABLE="$PROJECT.$CUR_DS.fct_financials_quarterly"
+fi
+
 bq --location="$BQ_LOC" query --use_legacy_sql=false --format=table \
 "WITH rev AS (
   SELECT cik, period_end_date, value
-  FROM \`$PROJECT.$CUR_DS.fct_financials_quarterly\`
+  FROM \`$FACT_TABLE\`
   WHERE concept IN ('us-gaap:Revenues','us-gaap:SalesRevenueNet')
 )
 SELECT

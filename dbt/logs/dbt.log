@@ -2202,3 +2202,544 @@ where period_end_date is null
 [0m20:27:37.558262 [debug] [MainThread]: Command `dbt build` succeeded at 20:27:37.558120 after 17.97 seconds
 [0m20:27:37.558946 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105bab5f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105cd7a40>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105bc7860>]}
 [0m20:27:37.559447 [debug] [MainThread]: Flushing usage events
+[0m20:36:27.507215 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1196fecf0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x119752420>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x119752120>]}
+
+
+============================== 20:36:27.512154 | f1fef245-57d9-453d-a5fe-e2f57615a430 ==============================
+[0m20:36:27.512154 [info ] [MainThread]: Running with dbt=1.7.15
+[0m20:36:27.512654 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'fail_fast': 'False', 'version_check': 'True', 'log_path': 'dbt/logs', 'profiles_dir': './dbt', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'invocation_command': 'dbt build --project-dir ./dbt --profiles-dir ./dbt', 'introspect': 'True', 'static_parser': 'True', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m20:36:31.147218 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'f1fef245-57d9-453d-a5fe-e2f57615a430', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10ad5d670>]}
+[0m20:36:31.183516 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'f1fef245-57d9-453d-a5fe-e2f57615a430', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11972c9e0>]}
+[0m20:36:31.185237 [info ] [MainThread]: Registered adapter: bigquery=1.7.5
+[0m20:36:31.207173 [debug] [MainThread]: checksum: e4cfa841c1cf2b310128daf3fe81590497b767fe3788aa75c7f0bcc4959f94d1, vars: {}, profile: , target: , version: 1.7.15
+[0m20:36:31.215454 [info ] [MainThread]: Unable to do partial parsing because env vars used in dbt_project.yml have changed
+[0m20:36:31.215876 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': 'f1fef245-57d9-453d-a5fe-e2f57615a430', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10b3a74d0>]}
+[0m20:36:32.063200 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'f1fef245-57d9-453d-a5fe-e2f57615a430', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10b69cce0>]}
+[0m20:36:32.073965 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'f1fef245-57d9-453d-a5fe-e2f57615a430', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10b674080>]}
+[0m20:36:32.074354 [info ] [MainThread]: Found 6 models, 8 tests, 2 sources, 0 exposures, 0 metrics, 454 macros, 0 groups, 0 semantic models
+[0m20:36:32.076012 [info ] [MainThread]: 
+[0m20:36:32.076729 [debug] [MainThread]: Acquiring new bigquery connection 'master'
+[0m20:36:32.077790 [debug] [ThreadPool]: Acquiring new bigquery connection 'list_sec-edgar-financials-warehouse'
+[0m20:36:32.078409 [debug] [ThreadPool]: Acquiring new bigquery connection 'list_sec-edgar-financials-warehouse'
+[0m20:36:32.078751 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m20:36:32.079028 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m20:36:32.846027 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_sec-edgar-financials-warehouse, now list_sec-edgar-financials-warehouse_sec_curated_sec_curated)
+[0m20:36:32.846672 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_sec-edgar-financials-warehouse, now list_sec-edgar-financials-warehouse_sec_curated_sec_raw)
+[0m20:36:32.847180 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m20:36:32.847460 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m20:36:33.539958 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'f1fef245-57d9-453d-a5fe-e2f57615a430', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10b1f9310>]}
+[0m20:36:33.540675 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m20:36:33.540952 [info ] [MainThread]: 
+[0m20:36:33.543919 [debug] [Thread-1 (]: Began running node model.sec_edgar.stg_companyfacts
+[0m20:36:33.544396 [debug] [Thread-2 (]: Began running node model.sec_edgar.stg_submissions
+[0m20:36:33.544848 [info ] [Thread-1 (]: 1 of 14 START sql view model sec_curated_sec_raw.stg_companyfacts .............. [RUN]
+[0m20:36:33.545195 [info ] [Thread-2 (]: 2 of 14 START sql view model sec_curated_sec_raw.stg_submissions ............... [RUN]
+[0m20:36:33.545738 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_sec-edgar-financials-warehouse_sec_curated_sec_curated, now model.sec_edgar.stg_companyfacts)
+[0m20:36:33.546912 [debug] [Thread-1 (]: Began compiling node model.sec_edgar.stg_companyfacts
+[0m20:36:33.552873 [debug] [Thread-1 (]: Writing injected SQL for node "model.sec_edgar.stg_companyfacts"
+[0m20:36:33.553384 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly list_sec-edgar-financials-warehouse_sec_curated_sec_raw, now model.sec_edgar.stg_submissions)
+[0m20:36:33.553827 [debug] [Thread-2 (]: Began compiling node model.sec_edgar.stg_submissions
+[0m20:36:33.555860 [debug] [Thread-2 (]: Writing injected SQL for node "model.sec_edgar.stg_submissions"
+[0m20:36:33.556455 [debug] [Thread-1 (]: Timing info for model.sec_edgar.stg_companyfacts (compile): 20:36:33.547306 => 20:36:33.556298
+[0m20:36:33.556718 [debug] [Thread-1 (]: Began executing node model.sec_edgar.stg_companyfacts
+[0m20:36:33.579018 [debug] [Thread-1 (]: Writing runtime sql for node "model.sec_edgar.stg_companyfacts"
+[0m20:36:33.579520 [debug] [Thread-2 (]: Timing info for model.sec_edgar.stg_submissions (compile): 20:36:33.554005 => 20:36:33.579273
+[0m20:36:33.580033 [debug] [Thread-2 (]: Began executing node model.sec_edgar.stg_submissions
+[0m20:36:33.582307 [debug] [Thread-2 (]: Writing runtime sql for node "model.sec_edgar.stg_submissions"
+[0m20:36:33.602966 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m20:36:33.603356 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m20:36:33.773878 [debug] [Thread-2 (]: On model.sec_edgar.stg_submissions: /* {"app": "dbt", "dbt_version": "1.7.15", "profile_name": "sec_edgar_bq", "target_name": "dev", "node_id": "model.sec_edgar.stg_submissions"} */
+
+
+  create or replace view `sec-edgar-financials-warehouse`.`sec_curated_sec_raw`.`stg_submissions`
+  OPTIONS()
+  as with src as (
+  select
+    SAFE_CAST(cik as string) as cik,
+    upper(ticker) as ticker,
+    company_name,
+    accession_no,
+    form,
+    SAFE_CAST(filed as date) as filed,
+    SAFE_CAST(report_period as date) as report_period
+  from `sec-edgar-financials-warehouse`.`sec_raw`.`raw_submissions`
+)
+select * from src;
+
+
+[0m20:36:33.774371 [debug] [Thread-1 (]: On model.sec_edgar.stg_companyfacts: /* {"app": "dbt", "dbt_version": "1.7.15", "profile_name": "sec_edgar_bq", "target_name": "dev", "node_id": "model.sec_edgar.stg_companyfacts"} */
+
+
+  create or replace view `sec-edgar-financials-warehouse`.`sec_curated_sec_raw`.`stg_companyfacts`
+  OPTIONS()
+  as with src as (
+  select
+    SAFE_CAST(cik as string) as cik,
+    upper(ticker) as ticker,
+    concept,
+    unit,
+    SAFE_CAST(period_end_date as date) as period_end_date,
+    SAFE_CAST(val as float64) as value,
+    accn, fy, fp, form,
+    SAFE_CAST(filed as date) as filed
+  from `sec-edgar-financials-warehouse`.`sec_raw`.`raw_companyfacts`
+)
+select * from src;
+
+
+[0m20:36:34.414405 [debug] [Thread-1 (]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=sec-edgar-financials-warehouse&j=bq:US:ff1d7203-cae2-4d10-b80e-11431e3386bf&page=queryresults
+[0m20:36:34.801978 [debug] [Thread-2 (]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=sec-edgar-financials-warehouse&j=bq:US:5b252dd7-4e26-491a-82fc-1aee2d78c843&page=queryresults
+[0m20:36:34.949183 [debug] [Thread-1 (]: Timing info for model.sec_edgar.stg_companyfacts (execute): 20:36:33.556872 => 20:36:34.949011
+[0m20:36:34.949866 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'f1fef245-57d9-453d-a5fe-e2f57615a430', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x102ba61e0>]}
+[0m20:36:34.950303 [info ] [Thread-1 (]: 1 of 14 OK created sql view model sec_curated_sec_raw.stg_companyfacts ......... [[32mCREATE VIEW (0 processed)[0m in 1.40s]
+[0m20:36:34.950779 [debug] [Thread-1 (]: Finished running node model.sec_edgar.stg_companyfacts
+[0m20:36:34.951519 [debug] [Thread-4 (]: Began running node test.sec_edgar.not_null_stg_companyfacts_concept.b71f04fbc5
+[0m20:36:34.951999 [debug] [Thread-3 (]: Began running node test.sec_edgar.not_null_stg_companyfacts_period_end_date.4469ada2ee
+[0m20:36:34.952332 [info ] [Thread-4 (]: 3 of 14 START test not_null_stg_companyfacts_concept ........................... [RUN]
+[0m20:36:34.952648 [info ] [Thread-3 (]: 4 of 14 START test not_null_stg_companyfacts_period_end_date ................... [RUN]
+[0m20:36:34.953203 [debug] [Thread-4 (]: Acquiring new bigquery connection 'test.sec_edgar.not_null_stg_companyfacts_concept.b71f04fbc5'
+[0m20:36:34.953685 [debug] [Thread-3 (]: Acquiring new bigquery connection 'test.sec_edgar.not_null_stg_companyfacts_period_end_date.4469ada2ee'
+[0m20:36:34.953971 [debug] [Thread-4 (]: Began compiling node test.sec_edgar.not_null_stg_companyfacts_concept.b71f04fbc5
+[0m20:36:34.954336 [debug] [Thread-3 (]: Began compiling node test.sec_edgar.not_null_stg_companyfacts_period_end_date.4469ada2ee
+[0m20:36:34.960608 [debug] [Thread-4 (]: Writing injected SQL for node "test.sec_edgar.not_null_stg_companyfacts_concept.b71f04fbc5"
+[0m20:36:34.964472 [debug] [Thread-3 (]: Writing injected SQL for node "test.sec_edgar.not_null_stg_companyfacts_period_end_date.4469ada2ee"
+[0m20:36:34.966010 [debug] [Thread-4 (]: Timing info for test.sec_edgar.not_null_stg_companyfacts_concept.b71f04fbc5 (compile): 20:36:34.954528 => 20:36:34.965812
+[0m20:36:34.966319 [debug] [Thread-4 (]: Began executing node test.sec_edgar.not_null_stg_companyfacts_concept.b71f04fbc5
+[0m20:36:34.973974 [debug] [Thread-3 (]: Timing info for test.sec_edgar.not_null_stg_companyfacts_period_end_date.4469ada2ee (compile): 20:36:34.960859 => 20:36:34.973766
+[0m20:36:34.976930 [debug] [Thread-4 (]: Writing runtime sql for node "test.sec_edgar.not_null_stg_companyfacts_concept.b71f04fbc5"
+[0m20:36:34.977346 [debug] [Thread-3 (]: Began executing node test.sec_edgar.not_null_stg_companyfacts_period_end_date.4469ada2ee
+[0m20:36:34.979213 [debug] [Thread-3 (]: Writing runtime sql for node "test.sec_edgar.not_null_stg_companyfacts_period_end_date.4469ada2ee"
+[0m20:36:34.979682 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m20:36:34.980134 [debug] [Thread-3 (]: Opening a new connection, currently in state init
+[0m20:36:35.064991 [debug] [Thread-4 (]: On test.sec_edgar.not_null_stg_companyfacts_concept.b71f04fbc5: /* {"app": "dbt", "dbt_version": "1.7.15", "profile_name": "sec_edgar_bq", "target_name": "dev", "node_id": "test.sec_edgar.not_null_stg_companyfacts_concept.b71f04fbc5"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select concept
+from `sec-edgar-financials-warehouse`.`sec_curated_sec_raw`.`stg_companyfacts`
+where concept is null
+
+
+
+      
+    ) dbt_internal_test
+[0m20:36:35.150169 [debug] [Thread-3 (]: On test.sec_edgar.not_null_stg_companyfacts_period_end_date.4469ada2ee: /* {"app": "dbt", "dbt_version": "1.7.15", "profile_name": "sec_edgar_bq", "target_name": "dev", "node_id": "test.sec_edgar.not_null_stg_companyfacts_period_end_date.4469ada2ee"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select period_end_date
+from `sec-edgar-financials-warehouse`.`sec_curated_sec_raw`.`stg_companyfacts`
+where period_end_date is null
+
+
+
+      
+    ) dbt_internal_test
+[0m20:36:35.414787 [debug] [Thread-2 (]: Timing info for model.sec_edgar.stg_submissions (execute): 20:36:33.580298 => 20:36:35.414371
+[0m20:36:35.416382 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'f1fef245-57d9-453d-a5fe-e2f57615a430', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c1c79e0>]}
+[0m20:36:35.417448 [info ] [Thread-2 (]: 2 of 14 OK created sql view model sec_curated_sec_raw.stg_submissions .......... [[32mCREATE VIEW (0 processed)[0m in 1.87s]
+[0m20:36:35.418413 [debug] [Thread-2 (]: Finished running node model.sec_edgar.stg_submissions
+[0m20:36:35.419203 [debug] [Thread-1 (]: Began running node test.sec_edgar.not_null_stg_submissions_accession_no.4edd837c9d
+[0m20:36:35.419624 [info ] [Thread-1 (]: 5 of 14 START test not_null_stg_submissions_accession_no ....................... [RUN]
+[0m20:36:35.420262 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.sec_edgar.stg_companyfacts, now test.sec_edgar.not_null_stg_submissions_accession_no.4edd837c9d)
+[0m20:36:35.420646 [debug] [Thread-1 (]: Began compiling node test.sec_edgar.not_null_stg_submissions_accession_no.4edd837c9d
+[0m20:36:35.426551 [debug] [Thread-1 (]: Writing injected SQL for node "test.sec_edgar.not_null_stg_submissions_accession_no.4edd837c9d"
+[0m20:36:35.427684 [debug] [Thread-1 (]: Timing info for test.sec_edgar.not_null_stg_submissions_accession_no.4edd837c9d (compile): 20:36:35.420892 => 20:36:35.427513
+[0m20:36:35.427970 [debug] [Thread-1 (]: Began executing node test.sec_edgar.not_null_stg_submissions_accession_no.4edd837c9d
+[0m20:36:35.429659 [debug] [Thread-1 (]: Writing runtime sql for node "test.sec_edgar.not_null_stg_submissions_accession_no.4edd837c9d"
+[0m20:36:35.430634 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m20:36:35.515543 [debug] [Thread-1 (]: On test.sec_edgar.not_null_stg_submissions_accession_no.4edd837c9d: /* {"app": "dbt", "dbt_version": "1.7.15", "profile_name": "sec_edgar_bq", "target_name": "dev", "node_id": "test.sec_edgar.not_null_stg_submissions_accession_no.4edd837c9d"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select accession_no
+from `sec-edgar-financials-warehouse`.`sec_curated_sec_raw`.`stg_submissions`
+where accession_no is null
+
+
+
+      
+    ) dbt_internal_test
+[0m20:36:36.110030 [debug] [Thread-3 (]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=sec-edgar-financials-warehouse&j=bq:US:3a5d53eb-1f48-4968-804d-7d29c8eef487&page=queryresults
+[0m20:36:36.112469 [debug] [Thread-4 (]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=sec-edgar-financials-warehouse&j=bq:US:d2a3abb9-5586-4f16-a298-39a69bc5413e&page=queryresults
+[0m20:36:36.572958 [debug] [Thread-1 (]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=sec-edgar-financials-warehouse&j=bq:US:c9a2f003-1a24-46fb-ab31-0f50d0045382&page=queryresults
+[0m20:36:36.694551 [debug] [Thread-3 (]: Timing info for test.sec_edgar.not_null_stg_companyfacts_period_end_date.4469ada2ee (execute): 20:36:34.977616 => 20:36:36.693645
+[0m20:36:36.696556 [info ] [Thread-3 (]: 4 of 14 PASS not_null_stg_companyfacts_period_end_date ......................... [[32mPASS[0m in 1.74s]
+[0m20:36:36.697216 [debug] [Thread-3 (]: Finished running node test.sec_edgar.not_null_stg_companyfacts_period_end_date.4469ada2ee
+[0m20:36:36.732892 [debug] [Thread-4 (]: Timing info for test.sec_edgar.not_null_stg_companyfacts_concept.b71f04fbc5 (execute): 20:36:34.966506 => 20:36:36.732255
+[0m20:36:36.734566 [info ] [Thread-4 (]: 3 of 14 PASS not_null_stg_companyfacts_concept ................................. [[32mPASS[0m in 1.78s]
+[0m20:36:36.735066 [debug] [Thread-4 (]: Finished running node test.sec_edgar.not_null_stg_companyfacts_concept.b71f04fbc5
+[0m20:36:36.735538 [debug] [Thread-2 (]: Began running node model.sec_edgar.int_companyfacts_normalized
+[0m20:36:36.735947 [info ] [Thread-2 (]: 6 of 14 START sql view model sec_curated_sec_curated.int_companyfacts_normalized  [RUN]
+[0m20:36:36.736483 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.sec_edgar.stg_submissions, now model.sec_edgar.int_companyfacts_normalized)
+[0m20:36:36.736747 [debug] [Thread-2 (]: Began compiling node model.sec_edgar.int_companyfacts_normalized
+[0m20:36:36.739470 [debug] [Thread-2 (]: Writing injected SQL for node "model.sec_edgar.int_companyfacts_normalized"
+[0m20:36:36.741583 [debug] [Thread-2 (]: Timing info for model.sec_edgar.int_companyfacts_normalized (compile): 20:36:36.736913 => 20:36:36.741416
+[0m20:36:36.741866 [debug] [Thread-2 (]: Began executing node model.sec_edgar.int_companyfacts_normalized
+[0m20:36:36.744196 [debug] [Thread-2 (]: Writing runtime sql for node "model.sec_edgar.int_companyfacts_normalized"
+[0m20:36:36.745083 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m20:36:36.830671 [debug] [Thread-2 (]: On model.sec_edgar.int_companyfacts_normalized: /* {"app": "dbt", "dbt_version": "1.7.15", "profile_name": "sec_edgar_bq", "target_name": "dev", "node_id": "model.sec_edgar.int_companyfacts_normalized"} */
+
+
+  create or replace view `sec-edgar-financials-warehouse`.`sec_curated_sec_curated`.`int_companyfacts_normalized`
+  OPTIONS()
+  as with ranked as (
+  select
+    cik, ticker, concept, unit, period_end_date, value, accn, filed, fy, fp, form,
+    row_number() over (
+      partition by cik, concept, period_end_date
+      order by case
+        when unit in ('USD','usd') then 1
+        when unit like '%USD%' then 2
+        else 3
+      end, filed desc
+    ) as rn
+  from `sec-edgar-financials-warehouse`.`sec_curated_sec_raw`.`stg_companyfacts`
+)
+select * except(rn) from ranked where rn = 1;
+
+
+[0m20:36:37.385468 [debug] [Thread-1 (]: Timing info for test.sec_edgar.not_null_stg_submissions_accession_no.4edd837c9d (execute): 20:36:35.428136 => 20:36:37.384308
+[0m20:36:37.387536 [info ] [Thread-1 (]: 5 of 14 PASS not_null_stg_submissions_accession_no ............................. [[32mPASS[0m in 1.97s]
+[0m20:36:37.388783 [debug] [Thread-1 (]: Finished running node test.sec_edgar.not_null_stg_submissions_accession_no.4edd837c9d
+[0m20:36:37.389848 [debug] [Thread-4 (]: Began running node model.sec_edgar.dim_company
+[0m20:36:37.390561 [info ] [Thread-4 (]: 7 of 14 START sql view model sec_curated_sec_curated.dim_company ............... [RUN]
+[0m20:36:37.391328 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly test.sec_edgar.not_null_stg_companyfacts_concept.b71f04fbc5, now model.sec_edgar.dim_company)
+[0m20:36:37.391681 [debug] [Thread-4 (]: Began compiling node model.sec_edgar.dim_company
+[0m20:36:37.394895 [debug] [Thread-4 (]: Writing injected SQL for node "model.sec_edgar.dim_company"
+[0m20:36:37.396426 [debug] [Thread-4 (]: Timing info for model.sec_edgar.dim_company (compile): 20:36:37.391902 => 20:36:37.396053
+[0m20:36:37.397002 [debug] [Thread-4 (]: Began executing node model.sec_edgar.dim_company
+[0m20:36:37.400629 [debug] [Thread-4 (]: Writing runtime sql for node "model.sec_edgar.dim_company"
+[0m20:36:37.403215 [debug] [Thread-4 (]: Opening a new connection, currently in state closed
+[0m20:36:37.490393 [debug] [Thread-4 (]: On model.sec_edgar.dim_company: /* {"app": "dbt", "dbt_version": "1.7.15", "profile_name": "sec_edgar_bq", "target_name": "dev", "node_id": "model.sec_edgar.dim_company"} */
+
+
+  create or replace view `sec-edgar-financials-warehouse`.`sec_curated_sec_curated`.`dim_company`
+  OPTIONS()
+  as select
+  cik,
+  any_value(company_name) as company_name,
+  array_agg(distinct ticker IGNORE NULLS)[offset(0)] as ticker
+from `sec-edgar-financials-warehouse`.`sec_curated_sec_raw`.`stg_submissions`
+group by cik;
+
+
+[0m20:36:37.573683 [debug] [Thread-2 (]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=sec-edgar-financials-warehouse&j=bq:US:5a0d68be-9d03-428b-aeeb-2b0f441da665&page=queryresults
+[0m20:36:38.112583 [debug] [Thread-2 (]: Timing info for model.sec_edgar.int_companyfacts_normalized (execute): 20:36:36.742021 => 20:36:38.112359
+[0m20:36:38.113647 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'f1fef245-57d9-453d-a5fe-e2f57615a430', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c2ef290>]}
+[0m20:36:38.114237 [info ] [Thread-2 (]: 6 of 14 OK created sql view model sec_curated_sec_curated.int_companyfacts_normalized  [[32mCREATE VIEW (0 processed)[0m in 1.38s]
+[0m20:36:38.114710 [debug] [Thread-2 (]: Finished running node model.sec_edgar.int_companyfacts_normalized
+[0m20:36:38.115250 [debug] [Thread-1 (]: Began running node test.sec_edgar.not_null_int_companyfacts_normalized_period_end_date.9dfecd3dcd
+[0m20:36:38.115595 [info ] [Thread-1 (]: 8 of 14 START test not_null_int_companyfacts_normalized_period_end_date ........ [RUN]
+[0m20:36:38.117022 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.sec_edgar.not_null_stg_submissions_accession_no.4edd837c9d, now test.sec_edgar.not_null_int_companyfacts_normalized_period_end_date.9dfecd3dcd)
+[0m20:36:38.117716 [debug] [Thread-1 (]: Began compiling node test.sec_edgar.not_null_int_companyfacts_normalized_period_end_date.9dfecd3dcd
+[0m20:36:38.123571 [debug] [Thread-1 (]: Writing injected SQL for node "test.sec_edgar.not_null_int_companyfacts_normalized_period_end_date.9dfecd3dcd"
+[0m20:36:38.125361 [debug] [Thread-1 (]: Timing info for test.sec_edgar.not_null_int_companyfacts_normalized_period_end_date.9dfecd3dcd (compile): 20:36:38.118074 => 20:36:38.125131
+[0m20:36:38.125704 [debug] [Thread-1 (]: Began executing node test.sec_edgar.not_null_int_companyfacts_normalized_period_end_date.9dfecd3dcd
+[0m20:36:38.127853 [debug] [Thread-1 (]: Writing runtime sql for node "test.sec_edgar.not_null_int_companyfacts_normalized_period_end_date.9dfecd3dcd"
+[0m20:36:38.128868 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m20:36:38.214346 [debug] [Thread-1 (]: On test.sec_edgar.not_null_int_companyfacts_normalized_period_end_date.9dfecd3dcd: /* {"app": "dbt", "dbt_version": "1.7.15", "profile_name": "sec_edgar_bq", "target_name": "dev", "node_id": "test.sec_edgar.not_null_int_companyfacts_normalized_period_end_date.9dfecd3dcd"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select period_end_date
+from `sec-edgar-financials-warehouse`.`sec_curated_sec_curated`.`int_companyfacts_normalized`
+where period_end_date is null
+
+
+
+      
+    ) dbt_internal_test
+[0m20:36:38.324714 [debug] [Thread-4 (]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=sec-edgar-financials-warehouse&j=bq:US:4542d685-afd5-48a4-abd4-1d6b2b12d4fa&page=queryresults
+[0m20:36:38.849379 [debug] [Thread-4 (]: Timing info for model.sec_edgar.dim_company (execute): 20:36:37.397325 => 20:36:38.849207
+[0m20:36:38.850065 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'f1fef245-57d9-453d-a5fe-e2f57615a430', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c23fad0>]}
+[0m20:36:38.850503 [info ] [Thread-4 (]: 7 of 14 OK created sql view model sec_curated_sec_curated.dim_company .......... [[32mCREATE VIEW (0 processed)[0m in 1.46s]
+[0m20:36:38.850916 [debug] [Thread-4 (]: Finished running node model.sec_edgar.dim_company
+[0m20:36:38.851468 [debug] [Thread-2 (]: Began running node test.sec_edgar.not_null_dim_company_cik.2b3d612d15
+[0m20:36:38.851857 [debug] [Thread-3 (]: Began running node test.sec_edgar.unique_dim_company_cik.ab80a865e2
+[0m20:36:38.852228 [info ] [Thread-2 (]: 9 of 14 START test not_null_dim_company_cik .................................... [RUN]
+[0m20:36:38.852539 [info ] [Thread-3 (]: 10 of 14 START test unique_dim_company_cik ..................................... [RUN]
+[0m20:36:38.853121 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.sec_edgar.int_companyfacts_normalized, now test.sec_edgar.not_null_dim_company_cik.2b3d612d15)
+[0m20:36:38.853625 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly test.sec_edgar.not_null_stg_companyfacts_period_end_date.4469ada2ee, now test.sec_edgar.unique_dim_company_cik.ab80a865e2)
+[0m20:36:38.853904 [debug] [Thread-2 (]: Began compiling node test.sec_edgar.not_null_dim_company_cik.2b3d612d15
+[0m20:36:38.854160 [debug] [Thread-3 (]: Began compiling node test.sec_edgar.unique_dim_company_cik.ab80a865e2
+[0m20:36:38.857990 [debug] [Thread-2 (]: Writing injected SQL for node "test.sec_edgar.not_null_dim_company_cik.2b3d612d15"
+[0m20:36:38.862170 [debug] [Thread-3 (]: Writing injected SQL for node "test.sec_edgar.unique_dim_company_cik.ab80a865e2"
+[0m20:36:38.863481 [debug] [Thread-3 (]: Timing info for test.sec_edgar.unique_dim_company_cik.ab80a865e2 (compile): 20:36:38.858202 => 20:36:38.863317
+[0m20:36:38.863811 [debug] [Thread-2 (]: Timing info for test.sec_edgar.not_null_dim_company_cik.2b3d612d15 (compile): 20:36:38.854323 => 20:36:38.863656
+[0m20:36:38.864054 [debug] [Thread-3 (]: Began executing node test.sec_edgar.unique_dim_company_cik.ab80a865e2
+[0m20:36:38.864330 [debug] [Thread-2 (]: Began executing node test.sec_edgar.not_null_dim_company_cik.2b3d612d15
+[0m20:36:38.866799 [debug] [Thread-2 (]: Writing runtime sql for node "test.sec_edgar.not_null_dim_company_cik.2b3d612d15"
+[0m20:36:38.869224 [debug] [Thread-3 (]: Writing runtime sql for node "test.sec_edgar.unique_dim_company_cik.ab80a865e2"
+[0m20:36:38.869631 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m20:36:38.870023 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m20:36:38.954460 [debug] [Thread-2 (]: On test.sec_edgar.not_null_dim_company_cik.2b3d612d15: /* {"app": "dbt", "dbt_version": "1.7.15", "profile_name": "sec_edgar_bq", "target_name": "dev", "node_id": "test.sec_edgar.not_null_dim_company_cik.2b3d612d15"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select cik
+from `sec-edgar-financials-warehouse`.`sec_curated_sec_curated`.`dim_company`
+where cik is null
+
+
+
+      
+    ) dbt_internal_test
+[0m20:36:39.042780 [debug] [Thread-3 (]: On test.sec_edgar.unique_dim_company_cik.ab80a865e2: /* {"app": "dbt", "dbt_version": "1.7.15", "profile_name": "sec_edgar_bq", "target_name": "dev", "node_id": "test.sec_edgar.unique_dim_company_cik.ab80a865e2"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+with dbt_test__target as (
+
+  select cik as unique_field
+  from `sec-edgar-financials-warehouse`.`sec_curated_sec_curated`.`dim_company`
+  where cik is not null
+
+)
+
+select
+    unique_field,
+    count(*) as n_records
+
+from dbt_test__target
+group by unique_field
+having count(*) > 1
+
+
+
+      
+    ) dbt_internal_test
+[0m20:36:39.835385 [debug] [Thread-1 (]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=sec-edgar-financials-warehouse&j=bq:US:4a3c2e10-2bd6-4a56-a0ca-32e6bc9eeb31&page=queryresults
+[0m20:36:40.237699 [debug] [Thread-3 (]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=sec-edgar-financials-warehouse&j=bq:US:5afc3e6b-ae13-41b7-b551-29ba8526d0dc&page=queryresults
+[0m20:36:40.339197 [debug] [Thread-2 (]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=sec-edgar-financials-warehouse&j=bq:US:84990b26-2a4c-41e8-8bff-e81d5e4bb062&page=queryresults
+[0m20:36:40.495765 [debug] [Thread-1 (]: Timing info for test.sec_edgar.not_null_int_companyfacts_normalized_period_end_date.9dfecd3dcd (execute): 20:36:38.125871 => 20:36:40.495491
+[0m20:36:40.496528 [info ] [Thread-1 (]: 8 of 14 PASS not_null_int_companyfacts_normalized_period_end_date .............. [[32mPASS[0m in 2.38s]
+[0m20:36:40.496960 [debug] [Thread-1 (]: Finished running node test.sec_edgar.not_null_int_companyfacts_normalized_period_end_date.9dfecd3dcd
+[0m20:36:40.497393 [debug] [Thread-4 (]: Began running node model.sec_edgar.dim_concept
+[0m20:36:40.497726 [info ] [Thread-4 (]: 11 of 14 START sql view model sec_curated_sec_curated.dim_concept .............. [RUN]
+[0m20:36:40.498047 [debug] [Thread-1 (]: Began running node model.sec_edgar.fct_financials_quarterly
+[0m20:36:40.498538 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly model.sec_edgar.dim_company, now model.sec_edgar.dim_concept)
+[0m20:36:40.498895 [info ] [Thread-1 (]: 12 of 14 START sql incremental model sec_curated_sec_curated.fct_financials_quarterly  [RUN]
+[0m20:36:40.499194 [debug] [Thread-4 (]: Began compiling node model.sec_edgar.dim_concept
+[0m20:36:40.499649 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.sec_edgar.not_null_int_companyfacts_normalized_period_end_date.9dfecd3dcd, now model.sec_edgar.fct_financials_quarterly)
+[0m20:36:40.501893 [debug] [Thread-4 (]: Writing injected SQL for node "model.sec_edgar.dim_concept"
+[0m20:36:40.502194 [debug] [Thread-1 (]: Began compiling node model.sec_edgar.fct_financials_quarterly
+[0m20:36:40.506132 [debug] [Thread-1 (]: Writing injected SQL for node "model.sec_edgar.fct_financials_quarterly"
+[0m20:36:40.506590 [debug] [Thread-4 (]: Timing info for model.sec_edgar.dim_concept (compile): 20:36:40.499833 => 20:36:40.506441
+[0m20:36:40.506870 [debug] [Thread-4 (]: Began executing node model.sec_edgar.dim_concept
+[0m20:36:40.507167 [debug] [Thread-1 (]: Timing info for model.sec_edgar.fct_financials_quarterly (compile): 20:36:40.502430 => 20:36:40.507014
+[0m20:36:40.509288 [debug] [Thread-4 (]: Writing runtime sql for node "model.sec_edgar.dim_concept"
+[0m20:36:40.509575 [debug] [Thread-1 (]: Began executing node model.sec_edgar.fct_financials_quarterly
+[0m20:36:40.529151 [debug] [Thread-4 (]: Opening a new connection, currently in state closed
+[0m20:36:40.534193 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m20:36:40.704875 [debug] [Thread-4 (]: On model.sec_edgar.dim_concept: /* {"app": "dbt", "dbt_version": "1.7.15", "profile_name": "sec_edgar_bq", "target_name": "dev", "node_id": "model.sec_edgar.dim_concept"} */
+
+
+  create or replace view `sec-edgar-financials-warehouse`.`sec_curated_sec_curated`.`dim_concept`
+  OPTIONS()
+  as select concept,
+  case concept
+    when 'us-gaap:Revenues' then 'Revenue'
+    when 'us-gaap:SalesRevenueNet' then 'Revenue'
+    when 'us-gaap:CostOfRevenue' then 'Cost of Revenue'
+    when 'us-gaap:GrossProfit' then 'Gross Profit'
+    when 'us-gaap:NetIncomeLoss' then 'Net Income'
+    when 'us-gaap:EarningsPerShareDiluted' then 'EPS (Diluted)'
+    else concept
+  end as concept_label
+from (select distinct concept from `sec-edgar-financials-warehouse`.`sec_curated_sec_curated`.`int_companyfacts_normalized`);
+
+
+[0m20:36:40.907930 [debug] [Thread-3 (]: Timing info for test.sec_edgar.unique_dim_company_cik.ab80a865e2 (execute): 20:36:38.864494 => 20:36:40.907592
+[0m20:36:40.908951 [info ] [Thread-3 (]: 10 of 14 PASS unique_dim_company_cik ........................................... [[32mPASS[0m in 2.06s]
+[0m20:36:40.909405 [debug] [Thread-3 (]: Finished running node test.sec_edgar.unique_dim_company_cik.ab80a865e2
+[0m20:36:41.169642 [debug] [Thread-1 (]: Writing runtime sql for node "model.sec_edgar.fct_financials_quarterly"
+[0m20:36:41.171746 [debug] [Thread-1 (]: On model.sec_edgar.fct_financials_quarterly: /* {"app": "dbt", "dbt_version": "1.7.15", "profile_name": "sec_edgar_bq", "target_name": "dev", "node_id": "model.sec_edgar.fct_financials_quarterly"} */
+-- back compat for old kwarg name
+  
+  
+        
+    
+
+    
+
+    merge into `sec-edgar-financials-warehouse`.`sec_curated_sec_curated`.`fct_financials_quarterly` as DBT_INTERNAL_DEST
+        using (
+with base as (
+  select
+    n.cik, n.ticker, n.concept, n.unit,
+    n.period_end_date, n.value, n.accn, n.filed, n.fy, n.fp, n.form
+  from `sec-edgar-financials-warehouse`.`sec_curated_sec_curated`.`int_companyfacts_normalized` n
+  where n.fp in ('Q1','Q2','Q3','Q4') or n.form in ('10-Q','10-K')
+)
+select * from base
+
+where period_end_date > (select ifnull(max(period_end_date), date('2000-01-01')) from `sec-edgar-financials-warehouse`.`sec_curated_sec_curated`.`fct_financials_quarterly`)
+
+        ) as DBT_INTERNAL_SOURCE
+        on (FALSE)
+
+    
+
+    when not matched then insert
+        (`cik`, `ticker`, `concept`, `unit`, `period_end_date`, `value`, `accn`, `filed`, `fy`, `fp`, `form`)
+    values
+        (`cik`, `ticker`, `concept`, `unit`, `period_end_date`, `value`, `accn`, `filed`, `fy`, `fp`, `form`)
+
+
+    
+[0m20:36:41.366449 [debug] [Thread-2 (]: Timing info for test.sec_edgar.not_null_dim_company_cik.2b3d612d15 (execute): 20:36:38.865374 => 20:36:41.365402
+[0m20:36:41.367625 [info ] [Thread-2 (]: 9 of 14 PASS not_null_dim_company_cik .......................................... [[32mPASS[0m in 2.51s]
+[0m20:36:41.368121 [debug] [Thread-2 (]: Finished running node test.sec_edgar.not_null_dim_company_cik.2b3d612d15
+[0m20:36:41.472608 [debug] [Thread-4 (]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=sec-edgar-financials-warehouse&j=bq:US:b82e5acf-a903-4500-9356-77cc76086da9&page=queryresults
+[0m20:36:41.870722 [debug] [Thread-1 (]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=sec-edgar-financials-warehouse&j=bq:US:037502d9-20ac-45c7-8b19-033a12efd635&page=queryresults
+[0m20:36:42.035077 [debug] [Thread-4 (]: Timing info for model.sec_edgar.dim_concept (execute): 20:36:40.507334 => 20:36:42.034861
+[0m20:36:42.036012 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'f1fef245-57d9-453d-a5fe-e2f57615a430', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c2b8320>]}
+[0m20:36:42.036544 [info ] [Thread-4 (]: 11 of 14 OK created sql view model sec_curated_sec_curated.dim_concept ......... [[32mCREATE VIEW (0 processed)[0m in 1.54s]
+[0m20:36:42.036984 [debug] [Thread-4 (]: Finished running node model.sec_edgar.dim_concept
+[0m20:36:46.451921 [debug] [Thread-1 (]: Timing info for model.sec_edgar.fct_financials_quarterly (execute): 20:36:40.509807 => 20:36:46.451685
+[0m20:36:46.453210 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'f1fef245-57d9-453d-a5fe-e2f57615a430', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10b6751f0>]}
+[0m20:36:46.453824 [info ] [Thread-1 (]: 12 of 14 OK created sql incremental model sec_curated_sec_curated.fct_financials_quarterly  [[32mMERGE (0.0 rows, 567.2 KiB processed)[0m in 5.95s]
+[0m20:36:46.454323 [debug] [Thread-1 (]: Finished running node model.sec_edgar.fct_financials_quarterly
+[0m20:36:46.455308 [debug] [Thread-3 (]: Began running node test.sec_edgar.not_null_fct_financials_quarterly_period_end_date.15c2900e01
+[0m20:36:46.455733 [debug] [Thread-2 (]: Began running node test.sec_edgar.relationships_fct_financials_quarterly_cik__cik__ref_dim_company_.9367db2f8e
+[0m20:36:46.456063 [info ] [Thread-3 (]: 13 of 14 START test not_null_fct_financials_quarterly_period_end_date .......... [RUN]
+[0m20:36:46.456362 [info ] [Thread-2 (]: 14 of 14 START test relationships_fct_financials_quarterly_cik__cik__ref_dim_company_  [RUN]
+[0m20:36:46.456853 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly test.sec_edgar.unique_dim_company_cik.ab80a865e2, now test.sec_edgar.not_null_fct_financials_quarterly_period_end_date.15c2900e01)
+[0m20:36:46.457297 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.sec_edgar.not_null_dim_company_cik.2b3d612d15, now test.sec_edgar.relationships_fct_financials_quarterly_cik__cik__ref_dim_company_.9367db2f8e)
+[0m20:36:46.457561 [debug] [Thread-3 (]: Began compiling node test.sec_edgar.not_null_fct_financials_quarterly_period_end_date.15c2900e01
+[0m20:36:46.457810 [debug] [Thread-2 (]: Began compiling node test.sec_edgar.relationships_fct_financials_quarterly_cik__cik__ref_dim_company_.9367db2f8e
+[0m20:36:46.461525 [debug] [Thread-3 (]: Writing injected SQL for node "test.sec_edgar.not_null_fct_financials_quarterly_period_end_date.15c2900e01"
+[0m20:36:46.465851 [debug] [Thread-2 (]: Writing injected SQL for node "test.sec_edgar.relationships_fct_financials_quarterly_cik__cik__ref_dim_company_.9367db2f8e"
+[0m20:36:46.467831 [debug] [Thread-3 (]: Timing info for test.sec_edgar.not_null_fct_financials_quarterly_period_end_date.15c2900e01 (compile): 20:36:46.457971 => 20:36:46.467587
+[0m20:36:46.468173 [debug] [Thread-3 (]: Began executing node test.sec_edgar.not_null_fct_financials_quarterly_period_end_date.15c2900e01
+[0m20:36:46.468514 [debug] [Thread-2 (]: Timing info for test.sec_edgar.relationships_fct_financials_quarterly_cik__cik__ref_dim_company_.9367db2f8e (compile): 20:36:46.461805 => 20:36:46.468326
+[0m20:36:46.470234 [debug] [Thread-2 (]: Began executing node test.sec_edgar.relationships_fct_financials_quarterly_cik__cik__ref_dim_company_.9367db2f8e
+[0m20:36:46.472279 [debug] [Thread-2 (]: Writing runtime sql for node "test.sec_edgar.relationships_fct_financials_quarterly_cik__cik__ref_dim_company_.9367db2f8e"
+[0m20:36:46.474861 [debug] [Thread-3 (]: Writing runtime sql for node "test.sec_edgar.not_null_fct_financials_quarterly_period_end_date.15c2900e01"
+[0m20:36:46.477863 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m20:36:46.478388 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m20:36:46.648623 [debug] [Thread-3 (]: On test.sec_edgar.not_null_fct_financials_quarterly_period_end_date.15c2900e01: /* {"app": "dbt", "dbt_version": "1.7.15", "profile_name": "sec_edgar_bq", "target_name": "dev", "node_id": "test.sec_edgar.not_null_fct_financials_quarterly_period_end_date.15c2900e01"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select period_end_date
+from `sec-edgar-financials-warehouse`.`sec_curated_sec_curated`.`fct_financials_quarterly`
+where period_end_date is null
+
+
+
+      
+    ) dbt_internal_test
+[0m20:36:46.649194 [debug] [Thread-2 (]: On test.sec_edgar.relationships_fct_financials_quarterly_cik__cik__ref_dim_company_.9367db2f8e: /* {"app": "dbt", "dbt_version": "1.7.15", "profile_name": "sec_edgar_bq", "target_name": "dev", "node_id": "test.sec_edgar.relationships_fct_financials_quarterly_cik__cik__ref_dim_company_.9367db2f8e"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+with child as (
+    select cik as from_field
+    from `sec-edgar-financials-warehouse`.`sec_curated_sec_curated`.`fct_financials_quarterly`
+    where cik is not null
+),
+
+parent as (
+    select cik as to_field
+    from `sec-edgar-financials-warehouse`.`sec_curated_sec_curated`.`dim_company`
+)
+
+select
+    from_field
+
+from child
+left join parent
+    on child.from_field = parent.to_field
+
+where parent.to_field is null
+
+
+
+      
+    ) dbt_internal_test
+[0m20:36:47.651896 [debug] [Thread-3 (]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=sec-edgar-financials-warehouse&j=bq:US:0518dd3d-e926-4bd8-8f94-7bd722a571ea&page=queryresults
+[0m20:36:48.262553 [debug] [Thread-3 (]: Timing info for test.sec_edgar.not_null_fct_financials_quarterly_period_end_date.15c2900e01 (execute): 20:36:46.468715 => 20:36:48.262066
+[0m20:36:48.263803 [info ] [Thread-3 (]: 13 of 14 PASS not_null_fct_financials_quarterly_period_end_date ................ [[32mPASS[0m in 1.81s]
+[0m20:36:48.264294 [debug] [Thread-3 (]: Finished running node test.sec_edgar.not_null_fct_financials_quarterly_period_end_date.15c2900e01
+[0m20:36:48.316678 [debug] [Thread-2 (]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=sec-edgar-financials-warehouse&j=bq:US:df9ee13d-9454-4073-baf7-223f52bddf95&page=queryresults
+[0m20:36:48.922859 [debug] [Thread-2 (]: Timing info for test.sec_edgar.relationships_fct_financials_quarterly_cik__cik__ref_dim_company_.9367db2f8e (execute): 20:36:46.470638 => 20:36:48.922458
+[0m20:36:48.923954 [info ] [Thread-2 (]: 14 of 14 PASS relationships_fct_financials_quarterly_cik__cik__ref_dim_company_  [[32mPASS[0m in 2.47s]
+[0m20:36:48.924411 [debug] [Thread-2 (]: Finished running node test.sec_edgar.relationships_fct_financials_quarterly_cik__cik__ref_dim_company_.9367db2f8e
+[0m20:36:48.926497 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m20:36:48.927040 [debug] [MainThread]: Connection 'model.sec_edgar.fct_financials_quarterly' was properly closed.
+[0m20:36:48.927399 [debug] [MainThread]: Connection 'test.sec_edgar.relationships_fct_financials_quarterly_cik__cik__ref_dim_company_.9367db2f8e' was properly closed.
+[0m20:36:48.927731 [debug] [MainThread]: Connection 'model.sec_edgar.dim_concept' was properly closed.
+[0m20:36:48.928043 [debug] [MainThread]: Connection 'test.sec_edgar.not_null_fct_financials_quarterly_period_end_date.15c2900e01' was properly closed.
+[0m20:36:48.928429 [info ] [MainThread]: 
+[0m20:36:48.928815 [info ] [MainThread]: Finished running 5 view models, 8 tests, 1 incremental model in 0 hours 0 minutes and 16.85 seconds (16.85s).
+[0m20:36:48.930940 [debug] [MainThread]: Command end result
+[0m20:36:48.939109 [info ] [MainThread]: 
+[0m20:36:48.939496 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m20:36:48.939738 [info ] [MainThread]: 
+[0m20:36:48.939997 [info ] [MainThread]: Done. PASS=14 WARN=0 ERROR=0 SKIP=0 TOTAL=14
+[0m20:36:48.940416 [debug] [MainThread]: Resource report: {"command_name": "build", "command_success": true, "command_wall_clock_time": 21.47783, "process_user_time": 6.537589, "process_kernel_time": 2.109194, "process_mem_max_rss": "268206080", "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m20:36:48.940754 [debug] [MainThread]: Command `dbt build` succeeded at 20:36:48.940671 after 21.48 seconds
+[0m20:36:48.941039 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10b6e01d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c3e8d10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c3e93a0>]}
+[0m20:36:48.941307 [debug] [MainThread]: Flushing usage events
