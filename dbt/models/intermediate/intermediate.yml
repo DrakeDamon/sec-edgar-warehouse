@@ -1,0 +1,6 @@
+version: 2
+models:
+  - name: int_companyfacts_normalized
+    tests:
+      - not_null:
+          column_name: period_end_date
