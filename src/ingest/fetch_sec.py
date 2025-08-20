@@ -19,7 +19,7 @@ def fetch_json(url):
     return r.json()
 
 def get_ticker_cik_map():
-    url = "https://www.sec.gov/files/company_tickers.json"
+    url = "https://www.sec.gov/files/company_tickers.json"  # Updated SEC API endpoint
     data = fetch_json(url)
     return {v["ticker"].upper(): str(v["cik_str"]).zfill(10) for v in data.values()}
 
