@@ -1,0 +1,11 @@
+python-dotenv==1.0.1
+requests==2.32.3
+pandas==2.2.2
+pyarrow==16.1.0
+google-cloud-storage==2.16.0
+google-cloud-bigquery==3.25.0
+dbt-core==1.7.15
+dbt-bigquery==1.7.5
+great-expectations==0.18.12
+sqlalchemy-bigquery==1.10.0
+db-dtypes
