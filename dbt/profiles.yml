@@ -16,5 +16,5 @@ sec_edgar_bq:
       project: "{{ env_var('GCP_PROJECT_ID','sec-edgar-financials-warehouse') }}"
       dataset: "{{ env_var('BQ_CURATED_DATASET','sec_curated') }}"
       location: "{{ env_var('BQ_LOCATION','US') }}"
-      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS', './sa.json') }}"
+      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"
       threads: 4
