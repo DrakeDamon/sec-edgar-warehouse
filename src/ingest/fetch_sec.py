@@ -9,7 +9,7 @@ PROJECT = os.getenv("GCP_PROJECT_ID","sec-edgar-financials-warehouse")
 BUCKET = os.getenv("GCS_BUCKET")
 USER_AGENT = os.getenv("SEC_USER_AGENT","David Damon dddamon06@gmail.com")
 TICKERS = [t.strip().upper() for t in os.getenv("TICKERS","AAPL,MSFT").split(",")]
-RAW_PREFIX_DATE = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%d")
+RAW_PREFIX_DATE = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%d")  # Fixed deprecation warning
 BASE = "https://data.sec.gov"
 HEADERS = {"User-Agent": USER_AGENT, "Accept-Encoding": "gzip, deflate"}
 
