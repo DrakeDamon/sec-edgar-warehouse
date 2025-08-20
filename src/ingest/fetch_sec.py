@@ -32,7 +32,8 @@ def normalize_companyfacts(cik, ticker, facts):
         print(f"    No facts found for {ticker}")
         return rows
         
-    # The facts structure has namespaces as top-level keys, need to drill down
+    # The facts structure has namespaces as top-level keys, need to drill down  
+    # This handles the nested SEC XBRL taxonomy structure
     available_concepts = []
     for namespace, namespace_facts in all_facts.items():
         if isinstance(namespace_facts, dict):
