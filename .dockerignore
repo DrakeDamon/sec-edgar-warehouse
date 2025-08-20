@@ -1,0 +1,11 @@
+.git
+.venv
+dbt/logs
+dbt/target
+dbt_packages
+tmp/
+.env
+sa.json
+__pycache__
+*.pyc
+.DS_Store
