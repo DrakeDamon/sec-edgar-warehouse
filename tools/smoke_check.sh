@@ -167,15 +167,15 @@ fi
 echo
 echo "== sec_viz health =="
 bq --location="$BQ_LOC" query --use_legacy_sql=false --format=csv \
-"SELECT COUNT(*) FROM \`$PROJECT.sec_curated_sec_viz.kpi_ttm_revenue\`" | tail -n1 | grep -E '^[1-9][0-9]*' \
+"SELECT COUNT(*) FROM \`$PROJECT.sec_viz.kpi_ttm_revenue\`" | tail -n1 | grep -E '^[1-9][0-9]*' \
   && pass "kpi_ttm_revenue has rows" || fail "kpi_ttm_revenue is empty"
 
 bq --location="$BQ_LOC" query --use_legacy_sql=false --format=csv \
-"SELECT COUNT(*) FROM \`$PROJECT.sec_curated_sec_viz.kpi_company_latest\` WHERE revenue IS NULL OR period_end_date IS NULL" | tail -n1 | awk '{if($1+0>=1){exit 1}}' \
+"SELECT COUNT(*) FROM \`$PROJECT.sec_viz.kpi_company_latest\` WHERE revenue IS NULL OR period_end_date IS NULL" | tail -n1 | awk '{if($1+0>=1){exit 1}}' \
   && pass "kpi_company_latest has no NULL revenue/date rows (ok if zero)" || warn "kpi_company_latest has NULLs (investigate expected gaps)"
 
 bq --location="$BQ_LOC" query --use_legacy_sql=false --format=csv \
-"SELECT FORMAT_DATE('%Y-%m-%d', MAX(period_end_date)) FROM \`$PROJECT.sec_curated_sec_viz.kpi_ttm_revenue\`" | tail -n1 | awk -v d=$(date -u -d '450 days ago' +%Y-%m-%d 2>/dev/null || date -v-450d +%Y-%m-%d) '{if($1>=d){exit 0}else{exit 1}}' \
+"SELECT FORMAT_DATE('%Y-%m-%d', MAX(period_end_date)) FROM \`$PROJECT.sec_viz.kpi_ttm_revenue\`" | tail -n1 | awk -v d=$(date -u -d '450 days ago' +%Y-%m-%d 2>/dev/null || date -v-450d +%Y-%m-%d) '{if($1>=d){exit 0}else{exit 1}}' \
   && pass "kpi_ttm_revenue max(period_end_date) is fresh (<= 450 days)" || warn "kpi_ttm_revenue looks stale"
 
 pass "All checks completed."

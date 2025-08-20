@@ -2,13 +2,13 @@
   materialized='table',
   partition_by={'field': 'period_end_date', 'data_type': 'date'},
   cluster_by=['cik'],
-  schema='sec_viz'
+  schema=var('BQ_VIZ_DATASET', 'sec_viz')
 ) }}
 
 with rev_candidates as (
   select
     cik, ticker, period_end_date, concept, unit, value
-  from {{ ref('fct_financials_quarterly') }}
+  from `sec-edgar-financials-warehouse.sec_curated_sec_curated.fct_financials_quarterly`
   where concept in (
     'us-gaap:Revenues',
     'us-gaap:SalesRevenueNet'

@@ -1,10 +1,10 @@
-{{ config(materialized='table', schema='sec_viz') }}
+{{ config(materialized='table', schema=var('BQ_VIZ_DATASET', 'sec_viz')) }}
 
 with last_period as (
   select
     cik,
     max(period_end_date) as last_period
-  from {{ ref('fct_financials_quarterly') }}
+  from `sec-edgar-financials-warehouse.sec_curated_sec_curated.fct_financials_quarterly`
   where period_end_date is not null
   group by cik
 ),
@@ -12,7 +12,7 @@ with last_period as (
 rev_candidates as (
   select
     cik, ticker, period_end_date, concept, unit, value
-  from {{ ref('fct_financials_quarterly') }}
+  from `sec-edgar-financials-warehouse.sec_curated_sec_curated.fct_financials_quarterly`
   where concept in (
     'us-gaap:Revenues',
     'us-gaap:SalesRevenueNet'
@@ -65,13 +65,13 @@ rev_final as (
 
 gp as (
   select cik, period_end_date, value as gross_profit
-  from {{ ref('fct_financials_quarterly') }}
+  from `sec-edgar-financials-warehouse.sec_curated_sec_curated.fct_financials_quarterly`
   where concept = 'us-gaap:GrossProfit'
 ),
 
 ni as (
   select cik, period_end_date, value as net_income
-  from {{ ref('fct_financials_quarterly') }}
+  from `sec-edgar-financials-warehouse.sec_curated_sec_curated.fct_financials_quarterly`
   where concept = 'us-gaap:NetIncomeLoss'
 )
 
@@ -84,7 +84,7 @@ select
   n.net_income,
   safe_divide(g.gross_profit, rf.revenue_nearest) as gross_margin,
   safe_divide(n.net_income, rf.revenue_nearest) as net_margin
-from {{ ref('dim_company') }} d
+from `sec-edgar-financials-warehouse.sec_curated_sec_curated.dim_company` d
 join last_period l using (cik)
 left join rev_final rf on rf.cik = l.cik and rf.last_period = l.last_period
 left join gp g on g.cik = l.cik and g.period_end_date = l.last_period

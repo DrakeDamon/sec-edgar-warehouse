@@ -1,6 +1,6 @@
 {{ config(
     materialized='table',
-    schema='sec_viz'
+    schema=var('BQ_VIZ_DATASET', 'sec_viz')
 ) }}
 
 with company_base as (
@@ -8,7 +8,7 @@ with company_base as (
     cik,
     ticker,
     company_name
-  from {{ ref('dim_company') }}
+  from `sec-edgar-financials-warehouse.sec_curated_sec_curated.dim_company`
   where ticker is not null
 ),
 latest_filing as (
@@ -16,7 +16,7 @@ latest_filing as (
     cik,
     max(period_end_date) as latest_filing_date,
     count(distinct period_end_date) as total_quarters_filed
-  from {{ ref('fct_financials_quarterly') }}
+  from `sec-edgar-financials-warehouse.sec_curated_sec_curated.fct_financials_quarterly`
   group by cik
 ),
 revenue_summary as (
@@ -24,7 +24,7 @@ revenue_summary as (
     cik,
     count(distinct case when concept in ('Revenues', 'SalesRevenueNet', 'RevenueFromContractWithCustomerExcludingAssessedTax') then period_end_date end) as revenue_quarters_count,
     max(case when concept in ('Revenues', 'SalesRevenueNet', 'RevenueFromContractWithCustomerExcludingAssessedTax') then period_end_date end) as latest_revenue_date
-  from {{ ref('fct_financials_quarterly') }}
+  from `sec-edgar-financials-warehouse.sec_curated_sec_curated.fct_financials_quarterly`
   where value > 0
   group by cik
 )
