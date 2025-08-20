@@ -1,4 +1,4 @@
-.PHONY: setup ingest load dbt-build ge validate all
+.PHONY: setup ingest load dbt-build ge validate test clean all
 setup:
 	python -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
 
@@ -13,6 +13,12 @@ dbt-build:
 
 ge:
 	. .venv/bin/activate; python src/dq/run_ge_checks.py
+
+test:
+	. .venv/bin/activate; python -m pytest tests/ -v
+
+clean:
+	rm -rf .venv dbt/target dbt/logs tmp/ __pycache__ *.pyc
 
 validate: dbt-build ge
 
