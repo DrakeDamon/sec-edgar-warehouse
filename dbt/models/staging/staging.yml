@@ -1,0 +1,17 @@
+version: 2
+sources:
+  - name: "{{ env_var('BQ_RAW_DATASET','sec_raw') }}"
+    tables:
+      - name: raw_companyfacts
+      - name: raw_submissions
+models:
+  - name: stg_companyfacts
+    tests:
+      - not_null:
+          column_name: period_end_date
+      - not_null:
+          column_name: concept
+  - name: stg_submissions
+    tests:
+      - not_null:
+          column_name: accession_no
