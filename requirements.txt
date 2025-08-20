@@ -8,4 +8,4 @@ dbt-core==1.7.15
 dbt-bigquery==1.7.5
 great-expectations==0.18.12
 sqlalchemy-bigquery==1.10.0
-db-dtypes
+db-dtypes  # Required for BigQuery DataFrame conversion
