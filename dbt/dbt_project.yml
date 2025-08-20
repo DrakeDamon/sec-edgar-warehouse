@@ -1,0 +1,16 @@
+name: sec_edgar
+version: 1.0.0
+profile: sec_edgar_bq
+model-paths: ["models"]
+snapshot-paths: ["models/snapshots"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+models:
+  sec_edgar:
+    +materialized: view
+    staging:
+      +schema: "{{ env_var('BQ_RAW_DATASET','sec_raw') }}"
+    intermediate:
+      +schema: "{{ env_var('BQ_CURATED_DATASET','sec_curated') }}"
+    marts:
+      +schema: "{{ env_var('BQ_CURATED_DATASET','sec_curated') }}"
