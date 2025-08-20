@@ -2,7 +2,7 @@
     materialized='incremental',
     partition_by={'field': 'period_end_date', 'data_type': 'date'},
     cluster_by=['cik','concept'],
-    require_partition_filter=false   -- add this line
+    require_partition_filter=false
 ) }}
 with base as (
   select
