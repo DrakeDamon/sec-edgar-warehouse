@@ -1,11 +1,20 @@
 sec_edgar_bq:
-  target: prod
+  target: "{{ env_var('DBT_TARGET', 'prod') }}"
   outputs:
     prod:
       type: bigquery
-      method: oauth            # <- use ADC (metadata on Cloud Run, GH OIDC/SA_JSON in Actions)
+      method: oauth            # <- use ADC (metadata on Cloud Run)
       project: "{{ env_var('GCP_PROJECT_ID','sec-edgar-financials-warehouse') }}"
       dataset: "{{ env_var('BQ_CURATED_DATASET','sec_curated') }}"
       location: "{{ env_var('BQ_LOCATION','US') }}"
       threads: 4
       # no keyfile / no keyfile_json here
+    
+    dev:
+      type: bigquery
+      method: service-account
+      project: "{{ env_var('GCP_PROJECT_ID','sec-edgar-financials-warehouse') }}"
+      dataset: "{{ env_var('BQ_CURATED_DATASET','sec_curated') }}"
+      location: "{{ env_var('BQ_LOCATION','US') }}"
+      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS', './sa.json') }}"
+      threads: 4

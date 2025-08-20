@@ -8,7 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Auth to Google Cloud (key)
+      - id: auth
+        name: Auth to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.SA_JSON }}
@@ -35,4 +36,7 @@ jobs:
       - name: Smoke check (dbt + GE + cost view)
         env:
           GCS_BUCKET: sec-edgar-data-20250819-19293
+          DBT_PROFILES_DIR: ./dbt
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+          DBT_TARGET: dev
         run: bash tools/smoke_check.sh
