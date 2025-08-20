@@ -1,62 +1,50 @@
 {{ config(
-    materialized='table',
-    schema='sec_viz'
+  materialized='table',
+  partition_by={'field': 'period_end_date', 'data_type': 'date'},
+  cluster_by=['cik'],
+  schema='sec_viz'
 ) }}
 
-with quarterly_revenue as (
-  select 
-    cik,
-    ticker,
-    period_end_date,
-    value as revenue,
-    fy,
-    fp
+with rev_candidates as (
+  select
+    cik, ticker, period_end_date, concept, unit, value
   from {{ ref('fct_financials_quarterly') }}
-  where concept in ('Revenues', 'SalesRevenueNet', 'RevenueFromContractWithCustomerExcludingAssessedTax')
-    and value > 0
-    and fp in ('Q1', 'Q2', 'Q3', 'Q4')
+  where concept in (
+    'us-gaap:Revenues',
+    'us-gaap:SalesRevenueNet'
+  )
+  and (unit is null or upper(unit) like '%USD%')
+  and period_end_date is not null
+  and value is not null
+  and period_end_date >= date_sub(current_date(), interval 8 year)
 ),
-latest_quarters as (
-  select 
-    cik,
-    ticker,
-    max(period_end_date) as latest_quarter
-  from quarterly_revenue
-  group by cik, ticker
+
+preferred as (
+  select *,
+         row_number() over (
+           partition by cik, period_end_date
+           order by case concept
+             when 'us-gaap:Revenues' then 1
+             when 'us-gaap:SalesRevenueNet' then 2
+             else 9 end,
+             period_end_date desc
+         ) as rn
+  from rev_candidates
 ),
-ttm_calculation as (
-  select 
-    qr.cik,
-    qr.ticker,
-    sum(qr.revenue) as ttm_revenue,
-    count(*) as quarters_count,
-    max(qr.period_end_date) as latest_quarter_date,
-    string_agg(concat(cast(qr.fy as string), '-', qr.fp), ', ' order by qr.period_end_date) as ttm_periods
-  from quarterly_revenue qr
-  join latest_quarters lq on qr.cik = lq.cik
-  where qr.period_end_date > date_sub(lq.latest_quarter, interval 365 day)
-    and qr.period_end_date <= lq.latest_quarter
-  group by qr.cik, qr.ticker
-  having count(*) >= 3
-),
-company_info as (
-  select 
-    cik,
-    ticker,
-    company_name
-  from {{ ref('dim_company') }}
+
+rev as (
+  select cik, ticker, period_end_date, value as revenue
+  from preferred
+  where rn = 1
 )
-select 
-  ci.cik,
-  ci.ticker,
-  ci.company_name,
-  ttm.ttm_revenue,
-  ttm.quarters_count,
-  ttm.latest_quarter_date,
-  ttm.ttm_periods,
-  round(ttm.ttm_revenue / 1000000000, 2) as ttm_revenue_billions,
-  current_timestamp() as refreshed_at
-from company_info ci
-join ttm_calculation ttm on ci.cik = ttm.cik
-where ci.ticker is not null
-order by ttm.ttm_revenue desc
+
+select
+  cik, ticker, period_end_date,
+  sum(revenue) over (
+    partition by cik
+    order by period_end_date
+    rows between 3 preceding and current row
+  ) as ttm_revenue
+from rev
+where period_end_date >= date_sub(current_date(), interval 6 year)
+qualify ttm_revenue is not null

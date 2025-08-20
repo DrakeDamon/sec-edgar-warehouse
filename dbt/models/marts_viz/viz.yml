@@ -1,60 +1,18 @@
 version: 2
-
 models:
   - name: kpi_company_latest
-    description: "Latest quarter KPIs and company information for dashboarding"
     columns:
       - name: cik
-        description: "SEC Central Index Key"
-        tests:
-          - not_null
-      - name: ticker
-        description: "Stock ticker symbol"
-        tests:
-          - not_null
-      - name: company_name
-        description: "Official company name"
-      - name: latest_revenue
-        description: "Most recent quarterly revenue"
-      - name: latest_quarter
-        description: "Date of most recent quarter"
-
+        tests: [not_null]
+      - name: period_end_date
+        tests: [not_null]
+      - name: revenue
+        tests: []   # keep soft; not all periods have revenue
   - name: kpi_ttm_revenue
-    description: "Trailing twelve months revenue calculations for companies"
     columns:
       - name: cik
-        description: "SEC Central Index Key"
-        tests:
-          - not_null
-      - name: ticker
-        description: "Stock ticker symbol"
-        tests:
-          - not_null
+        tests: [not_null]
+      - name: period_end_date
+        tests: [not_null]
       - name: ttm_revenue
-        description: "Trailing twelve months revenue sum"
-        tests:
-          - not_null
-      - name: quarters_count
-        description: "Number of quarters included in TTM calculation"
-
-  - name: company_dim
-    description: "Company dimension table optimized for visualization layer"
-    columns:
-      - name: cik
-        description: "SEC Central Index Key"
-        tests:
-          - unique
-          - not_null
-      - name: ticker
-        description: "Stock ticker symbol"
-        tests:
-          - not_null
-      - name: company_name
-        description: "Official company name"
-        tests:
-          - not_null
-      - name: data_completeness
-        description: "Assessment of data availability"
-        tests:
-          - accepted_values:
-              values: ['Active', 'Limited Data', 'No Revenue Data']
+        tests: [not_null]

@@ -1,46 +1,91 @@
-{{ config(
-    materialized='table',
-    schema='sec_viz'
-) }}
+{{ config(materialized='table', schema='sec_viz') }}
 
-with latest_quarters as (
-  select 
+with last_period as (
+  select
     cik,
-    ticker,
-    max(period_end_date) as latest_quarter
+    max(period_end_date) as last_period
   from {{ ref('fct_financials_quarterly') }}
-  group by cik, ticker
+  where period_end_date is not null
+  group by cik
 ),
-revenue_data as (
-  select 
-    f.cik,
-    f.ticker,
-    f.period_end_date,
-    f.value as revenue,
-    f.fy,
-    f.fp
-  from {{ ref('fct_financials_quarterly') }} f
-  join latest_quarters lq on f.cik = lq.cik and f.period_end_date = lq.latest_quarter
-  where f.concept in ('Revenues', 'SalesRevenueNet', 'RevenueFromContractWithCustomerExcludingAssessedTax')
-    and f.value > 0
+
+rev_candidates as (
+  select
+    cik, ticker, period_end_date, concept, unit, value
+  from {{ ref('fct_financials_quarterly') }}
+  where concept in (
+    'us-gaap:Revenues',
+    'us-gaap:SalesRevenueNet'
+  )
+  and (unit is null or upper(unit) like '%USD%')
+  and value is not null
 ),
-company_info as (
+
+rev_ranked as (
+  select *,
+         row_number() over (
+           partition by cik, period_end_date
+           order by case concept
+             when 'us-gaap:Revenues' then 1
+             when 'us-gaap:SalesRevenueNet' then 2
+             else 9 end
+         ) as rn
+  from rev_candidates
+),
+
+rev_pref as (
+  select cik, ticker, period_end_date, value as revenue
+  from rev_ranked
+  where rn = 1
+),
+
+-- Use window function to get most recent revenue within last 4 quarters
+rev_with_recency as (
   select 
-    cik,
-    ticker,
-    company_name
-  from {{ ref('dim_company') }}
+    l.cik, 
+    l.last_period,
+    r.period_end_date,
+    r.revenue,
+    row_number() over (
+      partition by l.cik 
+      order by r.period_end_date desc
+    ) as recency_rank
+  from last_period l
+  left join rev_pref r 
+    on r.cik = l.cik 
+    and r.period_end_date <= l.last_period
+    and r.period_end_date > date_sub(l.last_period, interval 400 day)
+),
+
+rev_final as (
+  select cik, last_period, revenue as revenue_nearest
+  from rev_with_recency 
+  where recency_rank = 1
+),
+
+gp as (
+  select cik, period_end_date, value as gross_profit
+  from {{ ref('fct_financials_quarterly') }}
+  where concept = 'us-gaap:GrossProfit'
+),
+
+ni as (
+  select cik, period_end_date, value as net_income
+  from {{ ref('fct_financials_quarterly') }}
+  where concept = 'us-gaap:NetIncomeLoss'
 )
-select 
-  ci.cik,
-  ci.ticker,
-  ci.company_name,
-  rd.period_end_date as latest_quarter,
-  rd.revenue as latest_revenue,
-  rd.fy as fiscal_year,
-  rd.fp as fiscal_period,
-  current_timestamp() as refreshed_at
-from company_info ci
-left join revenue_data rd on ci.cik = rd.cik
-where ci.ticker is not null
-order by rd.revenue desc
+
+select
+  d.cik,
+  d.ticker,
+  l.last_period as period_end_date,
+  rf.revenue_nearest as revenue,
+  g.gross_profit,
+  n.net_income,
+  safe_divide(g.gross_profit, rf.revenue_nearest) as gross_margin,
+  safe_divide(n.net_income, rf.revenue_nearest) as net_margin
+from {{ ref('dim_company') }} d
+join last_period l using (cik)
+left join rev_final rf on rf.cik = l.cik and rf.last_period = l.last_period
+left join gp g on g.cik = l.cik and g.period_end_date = l.last_period
+left join ni n on n.cik = l.cik and n.period_end_date = l.last_period
