@@ -3,14 +3,16 @@ models:
   - name: kpi_company_latest
     columns:
       - name: cik
-        tests: [not_null]
+        tests: [not_null, unique]
       - name: period_end_date
         tests: [not_null]
       - name: revenue
-        tests: []   # keep soft; not all periods have revenue
+        tests: [not_null]   # now safe because we anchor to a period WITH revenue
   - name: kpi_ttm_revenue
     columns:
       - name: cik
+        tests: [not_null]
+      - name: ticker
         tests: [not_null]
       - name: period_end_date
         tests: [not_null]

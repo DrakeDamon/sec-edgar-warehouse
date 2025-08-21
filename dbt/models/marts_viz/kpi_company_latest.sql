@@ -1,91 +1,78 @@
 {{ config(materialized='table', schema=var('BQ_VIZ_DATASET', 'sec_viz')) }}
 
-with last_period as (
-  select
-    cik,
-    max(period_end_date) as last_period
-  from `sec-edgar-financials-warehouse.sec_curated_sec_curated.fct_financials_quarterly`
-  where period_end_date is not null
-  group by cik
-),
-
-rev_candidates as (
-  select
+-- Revenue concepts (USD-ish only), pick a preferred one per (cik, period)
+WITH rev_candidates AS (
+  SELECT
     cik, ticker, period_end_date, concept, unit, value
-  from `sec-edgar-financials-warehouse.sec_curated_sec_curated.fct_financials_quarterly`
-  where concept in (
+  FROM `sec-edgar-financials-warehouse.sec_curated_sec_curated.fct_financials_quarterly`
+  WHERE concept IN (
     'us-gaap:Revenues',
-    'us-gaap:SalesRevenueNet'
+    'us-gaap:SalesRevenueNet',
+    'us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax',
+    'us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax',
+    'us-gaap:SalesRevenueGoodsNet',
+    'us-gaap:SalesRevenueServicesNet'
   )
-  and (unit is null or upper(unit) like '%USD%')
-  and value is not null
+  AND (unit IS NULL OR UPPER(unit) LIKE '%USD%')
+  AND period_end_date IS NOT NULL
+  AND value IS NOT NULL
+),
+rev_ranked AS (
+  SELECT *,
+         ROW_NUMBER() OVER (
+           PARTITION BY cik, period_end_date
+           ORDER BY CASE concept
+             WHEN 'us-gaap:Revenues' THEN 1
+             WHEN 'us-gaap:SalesRevenueNet' THEN 2
+             WHEN 'us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax' THEN 3
+             WHEN 'us-gaap:SalesRevenueGoodsNet' THEN 4
+             WHEN 'us-gaap:SalesRevenueServicesNet' THEN 5
+             ELSE 9 END
+         ) AS rn
+  FROM rev_candidates
+),
+rev_pref AS (
+  SELECT cik, ticker, period_end_date, value AS revenue
+  FROM rev_ranked
+  WHERE rn = 1
 ),
 
-rev_ranked as (
-  select *,
-         row_number() over (
-           partition by cik, period_end_date
-           order by case concept
-             when 'us-gaap:Revenues' then 1
-             when 'us-gaap:SalesRevenueNet' then 2
-             else 9 end
-         ) as rn
-  from rev_candidates
+-- 🔑 latest period that actually HAS revenue (per company)
+last_rev_period AS (
+  SELECT
+    cik,
+    MAX(period_end_date) AS last_period
+  FROM rev_pref
+  GROUP BY cik
 ),
 
-rev_pref as (
-  select cik, ticker, period_end_date, value as revenue
-  from rev_ranked
-  where rn = 1
+-- optional companion metrics at that same period
+gp AS (
+  SELECT cik, period_end_date, value AS gross_profit
+  FROM `sec-edgar-financials-warehouse.sec_curated_sec_curated.fct_financials_quarterly`
+  WHERE concept = 'us-gaap:GrossProfit'
 ),
-
--- Use window function to get most recent revenue within last 4 quarters
-rev_with_recency as (
-  select 
-    l.cik, 
-    l.last_period,
-    r.period_end_date,
-    r.revenue,
-    row_number() over (
-      partition by l.cik 
-      order by r.period_end_date desc
-    ) as recency_rank
-  from last_period l
-  left join rev_pref r 
-    on r.cik = l.cik 
-    and r.period_end_date <= l.last_period
-    and r.period_end_date > date_sub(l.last_period, interval 400 day)
-),
-
-rev_final as (
-  select cik, last_period, revenue as revenue_nearest
-  from rev_with_recency 
-  where recency_rank = 1
-),
-
-gp as (
-  select cik, period_end_date, value as gross_profit
-  from `sec-edgar-financials-warehouse.sec_curated_sec_curated.fct_financials_quarterly`
-  where concept = 'us-gaap:GrossProfit'
-),
-
-ni as (
-  select cik, period_end_date, value as net_income
-  from `sec-edgar-financials-warehouse.sec_curated_sec_curated.fct_financials_quarterly`
-  where concept = 'us-gaap:NetIncomeLoss'
+ni AS (
+  SELECT cik, period_end_date, value AS net_income
+  FROM `sec-edgar-financials-warehouse.sec_curated_sec_curated.fct_financials_quarterly`
+  WHERE concept = 'us-gaap:NetIncomeLoss'
 )
 
-select
-  d.cik,
-  d.ticker,
-  l.last_period as period_end_date,
-  rf.revenue_nearest as revenue,
+SELECT
+  lr.cik,
+  COALESCE(r.ticker, d.ticker) AS ticker,        -- fill ticker from dimension if missing
+  lr.last_period AS period_end_date,
+  r.revenue,
   g.gross_profit,
   n.net_income,
-  safe_divide(g.gross_profit, rf.revenue_nearest) as gross_margin,
-  safe_divide(n.net_income, rf.revenue_nearest) as net_margin
-from `sec-edgar-financials-warehouse.sec_curated_sec_curated.dim_company` d
-join last_period l using (cik)
-left join rev_final rf on rf.cik = l.cik and rf.last_period = l.last_period
-left join gp g on g.cik = l.cik and g.period_end_date = l.last_period
-left join ni n on n.cik = l.cik and n.period_end_date = l.last_period
+  SAFE_DIVIDE(g.gross_profit, r.revenue) AS gross_margin,
+  SAFE_DIVIDE(n.net_income, r.revenue)   AS net_margin
+FROM last_rev_period lr
+JOIN rev_pref r
+  ON r.cik = lr.cik AND r.period_end_date = lr.last_period  -- guarantees non-null revenue
+LEFT JOIN `sec-edgar-financials-warehouse.sec_curated_sec_curated.dim_company` d
+  ON d.cik = lr.cik
+LEFT JOIN gp g
+  ON g.cik = lr.cik AND g.period_end_date = lr.last_period
+LEFT JOIN ni n
+  ON n.cik = lr.cik AND n.period_end_date = lr.last_period
